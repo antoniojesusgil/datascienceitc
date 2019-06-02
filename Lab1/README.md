@@ -4,9 +4,9 @@
 
 - Habilita el modo edición en la celda, escribe:
 
-```python
-print(“Hola mundo”)
-```
+    ```python
+    print(“Hola mundo”)
+    ```
 Y ejecuta la celda.
 
 - Desde **Home** renombra a `Lab1.ipynb`, asegurate que el notebook no se encuentre abierto (icono en verde) antes has de hacer un shutdown. Se asocia un kernel a cada libreta que es un interprete python.
