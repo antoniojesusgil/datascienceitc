@@ -1,6 +1,7 @@
 # Jupyter
 
-1. Shortcuts, familiarizate con los atajos de teclado, para ello ejecuta `help > Keyboard Shorcuts`
+## Shortcuts
+Familiarizate con los atajos de teclado, para ello ejecuta `help > Keyboard Shorcuts`
 
 Estos trabajan en ambos modos:
 
@@ -33,18 +34,20 @@ En modo edición, se activa en `Enter`
 - `Ctrl + Shift + Z` o `Ctrl + Y` rehacer
 - `Ctrl + Shift + P` abre la paleta de comandos
 
-2. Desde la página principal de Jupyter, en **Home**, crea una nueva libreta usando el botón `new > Python 3`, ahora renombra desde la caja superior, pon `miLibreta`
+### Ejercicios:
 
-- Escribe:
+1. Desde la página principal de Jupyter, en **Home**, crea una nueva libreta usando el botón `new > Python 3`, ahora renombra desde la caja superior, pon `miLibreta`
+
+En la celda, escribe:
 
     ```python
     print('Hola mundo')
     ```
 
-- Pasa a modo comando y añade una celda en la parte superior y otra debajo
+Pasa a modo comando y añade una celda en la parte superior y otra debajo
 
-- Ejecuta la celda activa mediante el atajo de teclado.
+Ejecuta la celda activa mediante el atajo de teclado.
 
-- Desde **Home** renombra a `Lab1.ipynb`, asegurate que el notebook no se encuentre abierto (icono en verde) antes has de hacer un shutdown. Se asocia un kernel a cada libreta que es un interprete python.
+2. Desde **Home** renombra a `Lab1.ipynb`, asegurate que el notebook no se encuentre abierto (icono en verde) antes has de hacer un shutdown. Se asocia un kernel a cada libreta que es un interprete python.
 
-- Crea una carpeta cuyo nombre sea datos. Dentro de esta carpeta sube el fichero xxx.txt/csv
+3. Crea una carpeta cuyo nombre sea datos. Dentro de esta carpeta sube el fichero xxx.txt/csv
