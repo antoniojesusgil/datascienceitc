@@ -918,7 +918,7 @@ serie_equipos["segunda":]
 
 <br>
 Pandas proporciona objetos y una gran cantidad de funcionalidades para el manejo de datos relativos a fechas y horas. 
-Una descripción detallada puede encontrarse en la [documentación relativa a series temporales en Pandas](http://pandas.pydata.org/pandas-docs/stable/timeseries.html#).
+Una descripción detallada puede encontrarse en la [documentación relativa a series temporales en Pandas](http://pandas.pydata.org/pandas-docs/stable/timeseries.html).
 
 Los objetos utilizados en la representación de datos temporales son:
 
