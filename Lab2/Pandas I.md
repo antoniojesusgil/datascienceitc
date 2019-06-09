@@ -33,12 +33,9 @@
    * [Descripción y resumen](#section34)
    * [Manipulación de series](#section35)   
    * [Consulta y selección](#section36)
-   * [Vectorización](#section37)
 * [4. Datos categóricos](#section4)
     * [El objeto <font face="monospace">Categorical</font> y el tipo <font face="monospace">CategoricalDType</font>](#section41)
     * [Series con valores categóricos](#section42)    
-    * [Operaciones con valores categóricos](#section43) 
-    * [Indexación con valores categóricos](#section44)    
 * [5. Datos temporales en Pandas](#section5)
    * [Marcas de tiempo: <font face="monospace"> Timestamp</font>](#section51)
 
@@ -50,21 +47,12 @@
 [**Pandas**](http://pandas.pydata.org) es una librería de Python que proporciona estructuras y herramientas para el preprocesamiento y análisis exploratorio de conjuntos de datos. Trabaja principalemente con objetos denominados `DataFrame`, que representan tablas indexadas de datos, e implementan funciones avanzadas para selección, consultas, agrupamiento, procesamiento, etc. El siguiente código lee un archivo de datos y lo almacena y muestra en un `DataFrame`.
 
 
-```python
-import pandas as pd
-
-# Lee los datos de las personas que viajaban en el Titanic      
-df_titanic = pd.read_csv('datos/Titanic.csv', index_col=0) 
-# Muestra los 5 primeros casos 
-df_titanic.head(5)   
-```
-
-En estas libretas se proporciona una descripción inicial de Pandas, y se presentarán, mediante ejemplos, las funcionalidades básicas de uso más común. Esta introducción será extendida en _módulo 2_ del curso en el que, además se dará una visión formal del conjunto de los datos y su tratamiento. No obstante, Pandas es una librería _completa y compleja_, por lo que será indispensable recurrir ocasionalmente a la abundante información existente en la red, a foros como [Stack Overflow](https://stackoverflow.com/questions/tagged/pandas), y a la [documentación oficial de Pandas](http://pandas.pydata.org/pandas-docs/stable/). 
+En estas libretas se proporciona una descripción inicial de Pandas, y se presentarán, mediante ejemplos, las funcionalidades básicas de uso más común. No obstante, Pandas es una librería _completa y compleja_, por lo que será indispensable recurrir ocasionalmente a la abundante información existente en la red, a foros como [Stack Overflow](https://stackoverflow.com/questions/tagged/pandas), y a la [documentación oficial de Pandas](http://pandas.pydata.org/pandas-docs/stable/). 
 
 <a id="section2"></a>
 # <font color="#004D7F" size=5> 2. Series </font>
 
-Un objeto de la clase `Series` almacena una colección de valores e _indexarlos_ mediante etiquetas. Además, esta clase implementa multitud de operaciones, y es la forma en que se accede a columnas o filas individuales en objetos de tipo `DataFrame`, que serán descritos con detalle en la próxima libreta. 
+Un objeto de la clase `Series` almacena una colección de valores e _indexados_ mediante etiquetas. Además, esta clase implementa multitud de operaciones, y es la forma en que se accede a columnas o filas individuales en objetos de tipo `DataFrame`, que serán descritos con detalle en la próxima libreta. 
 
 <div class="alert alert-block alert-info">
 <i class="fa fa-info-circle" aria-hidden="true"></i>
@@ -101,7 +89,7 @@ Es posible especificar la secuencia que contiene el índice. Éste, que por defe
 
 ```python
 serie_equipos = pd.Series(['Real Madrid', 'Manchester United', 'Milán'], 
-                          index=['España', 'Inglaterra', 'Italia'])
+                          index=['España', 'Reino Unido', 'Italia'])
 print(serie_equipos)
 ```
 
@@ -112,7 +100,7 @@ También se puede construir la serie a partir de un diccionario. En ese caso, la
 
 ```python
 equipos = {'España': 'Real Madrid',
-           'Inglaterra': 'Manchester United',
+           'Reino Unido': 'Manchester United',
            'Italia': 'Milán',
            'Francia': 'PSG',
            'Alemania': 'Bayern Munich' }
@@ -122,7 +110,7 @@ print()
 
 # En este caso, se indican índices, por lo que solo se tomarán del diccionario entradas cuya clave coincida
 # con alguno de los índices.
-serie_equipos = pd.Series(equipos, index=['España', 'Inglaterra', 'Italia'])
+serie_equipos = pd.Series(equipos, index=['España', 'Reino Unido', 'Italia'])
 print('Segunda serie:')
 print(serie_equipos)
 ```
@@ -187,11 +175,9 @@ print(s[2])                # En este caso, llama a loc[]
 
 Tanto la función `loc` como `iloc` admiten el uso de colecciones, es decir, acceder a varios elementos de la serie a la vez.
 
-
-
 ```python
 equipos = {'España': 'Real Madrid',
-           'Inglaterra': 'Manchester United',
+           'Reino Unido': 'Manchester United',
            'Italia': 'Milán',
            'Francia': 'PSG',
            'Alemania': 'Bayern Munich'}
@@ -215,7 +201,7 @@ El acceso a los elementos de una serie también se puede hacer mediante _slicing
 
 ```python
 equipos = {'España': 'Real Madrid',
-           'Inglaterra': 'Manchester United',
+           'Reino Unido': 'Manchester United',
            'Italia': 'Milán',
            'Francia': 'PSG',
            'Alemania': 'Bayern Munich'}
@@ -223,7 +209,7 @@ serie_equipos = pd.Series(equipos)
 print(serie_equipos,'\n')
 
 print(serie_equipos.iloc[0:3],'\n')
-print(serie_equipos.loc['España':'Inglaterra'])
+print(serie_equipos.loc['España':'Reino Unido'])
 ```
 
 ### <font color="#004D7F"> Indexación mediante valores booleanos </font>
@@ -233,7 +219,7 @@ Por último, es posible acceder a las series mediante una colección de datos de
 
 ```python
 equipos = {'España': 'Real Madrid',
-           'Inglaterra': 'Manchester United',
+           'Reino Unido': 'Manchester United',
            'Italia': 'Milán',
            'Francia': 'PSG',
            'Alemania': 'Bayern Munich'}
@@ -249,9 +235,9 @@ El uso más común de esta funcionalidad es el filtrado de elementos según una 
 ```python
 import numpy as np
 mundiales = {'España': 1 ,
-             'Inglaterra': 1,
+             'Reino Unido': 1,
              'Italia': 4,
-             'Francia': 1,
+             'Francia': 2,
              'Alemania': 4}
 serie_mundiales = pd.Series(mundiales)
 print(serie_mundiales,'\n')
@@ -265,10 +251,10 @@ Se puede hacer un acceso con condiciones más complejas, siempre y cuando éstas
 
 
 ```python
-champions = {'Real Madrid':12, 'Manchester':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 
 equipos = {'España': 'Real Madrid',
-           'Inglaterra': 'Manchester',
+           'Reino Unido': 'Manchester',
            'Italia': 'Milán',
            'Francia': 'PSG',
            'Alemania': 'Bayern Munich'}
@@ -328,7 +314,7 @@ Al igual que con los arrays Numpy, es posible llevar a cabo operaciones a nivel 
 
 
 ```python
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 serie_champions = pd.Series(champions)
 
 europa_league = {'Real Madrid':2, 'Manchester United':1, 'Milán':0, 'Bayern Munich':1, 'PSG': 0}
@@ -365,10 +351,10 @@ Es posible definir funciones que se implementen a partir de estos operadores u o
 import numpy as np
 
 def titulos_decada(titulos):
-    ''' Numero medio de títulos ganados por cada década de competición'''
+    ''' Numero medio de títulos de Champions ganados por cada década de competición'''
     return titulos/6.0
 
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 serie_champions = pd.Series(champions)
 
 titulos_decada(serie_champions) # Se aplica la función sobre cada elemento de la serie. 
@@ -387,20 +373,19 @@ Las funciones `apply()`  y `map()` permiten _aplicar_ una función cualquiera a 
 
 
 ```python
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 europa_league = {'Real Madrid':2, 'Manchester United':1, 'Milán':0, 'Bayern Munich':1, 'PSG': 0}
 
 # Ahora solamente se dispone de una serie que se indexa por países. 
 equipos = {'España': 'Real Madrid',
-           'Inglaterra': 'Manchester United',
+           'Reino Unido': 'Manchester United',
            'Italia': 'Milán',
            'Francia': 'PSG',
            'Alemania': 'Bayern Munich'}
 serie_equipos = pd.Series(equipos)
 
-def copas_equipo(equipo):                                        # Utilizamos get en lugar de [] en el acceso a los
-    return champions.get(equipo,0)+europa_league.get(equipo,0)   # diccionarios para poder devolver un valor por
-                                                                 # defecto (0) si el equipo no existe. 
+def copas_equipo(equipo):                      # Utilizamos get en lugar de [] en el acceso a los
+    return champions.get(equipo,0)+europa_league.get(equipo,0)   # diccionarios para poder devolver un valor por defecto (0) si el equipo no existe. 
 serie_equipos.apply(copas_equipo)
 ```
 
@@ -424,7 +409,7 @@ Pandas implementa un conjunto de operaciones para el manejo de series de Strings
 
 ```python
 equipos = {'España': 'Real Madrid',
-           'Inglaterra': 'Manchester',
+           'Reino Unido': 'Manchester',
            'Italia': 'Milán',
            'Francia': 'PSG',
            'Alemania': 'Bayern Munich'}
@@ -446,7 +431,7 @@ Los objetos de tipo `Series` implementan también una gran cantidad de funciones
 
 
 ```python
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 serie_champions = pd.Series(champions)
 
 print("Numero de elementos: ",serie_champions.count())                   
@@ -462,10 +447,10 @@ La función `describe` devuelve un resumen descriptivo de los datos. Admite algu
 
 
 ```python
-equipos = {'España': 'Real Madrid', 'Inglaterra': 'Manchester', 'Italia': 'Milán','Francia': 'PSG', 'Alemania': 'Bayern Munich'}
+equipos = {'España': 'Real Madrid', 'Reino Unido': 'Manchester', 'Italia': 'Milán','Francia': 'PSG', 'Alemania': 'Bayern Munich'}
 serie_equipos = pd.Series(equipos)
 
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 serie_champions = pd.Series(champions)
 
 print("Serie con valores numéricos:")
@@ -497,7 +482,7 @@ Es posible eliminar elementos de la serie mediante la función `drop()`. Ésta r
 
 
 ```python
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 serie_champions = pd.Series(champions)
 
 serie_champions.drop('Real Madrid')
@@ -510,7 +495,7 @@ El método `append()` permite concatenar series.
 
 
 ```python
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 serie_champions = pd.Series(champions)
 
 europa_league = {'Real Madrid':2, 'Manchester United':1, 'Milán':0, 'Bayern Munich':1, 'PSG': 0}
@@ -525,12 +510,12 @@ El método `replace()` permite reemplazar valores. Admite como parámetro un dic
 
 
 ```python
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0, 'Atlético de Madrid':0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0, 'Atlético de Madrid':0}
 serie_champions = pd.Series(champions)
 print(serie_champions,'\n')
 print(serie_champions.replace(0,'Nunca'),'\n')
 
-equipos = {'España': 'Real Madrid', 'Inglaterra': 'Manchester United', 'Italia': 'Milán', 'Francia': 'PSG', 'Alemania': 'Bayern Munich'}
+equipos = {'España': 'Real Madrid', 'Reino Unido': 'Manchester United', 'Italia': 'Milán', 'Francia': 'PSG', 'Alemania': 'Bayern Munich'}
 serie_equipos = pd.Series(equipos)
 
 print(serie_equipos, '\n')
@@ -549,7 +534,7 @@ La función `head()` muestra los primeros elementos de la serie; la función `ta
 
 
 ```python
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 serie_champions = pd.Series(champions)
 
 print(serie_champions.head(3),'\n')                 # Devuelve los 3 primeros elementos. 
@@ -558,11 +543,11 @@ print(serie_champions.tail(2))                      # Devuelve los 2 últimos el
 
 ### <font color="#004D7F" face="monospace"> any() / all() </font>
 
-Las funciones denominadas `any()` y `all()`  permiten determinar si uno o todos  (respectivamente) los valores de la serie, son distintos de `False` (o 0). Estas funciones se suelen utilizar también junto a una condición. 
+Las funciones denominadas `any()` y `all()`  permiten determinar si uno o todos (respectivamente) los valores de la serie, son distintos de `False` (o 0). Estas funciones se suelen utilizar también junto a una condición. 
 
 
 ```python
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 serie_champions = pd.Series(champions)
 
 print(serie_champions.any())
@@ -581,7 +566,7 @@ También existen las funciones `isna()`/`isnull()` y `notna()`/`notnull()` que p
 ```python
 import numpy as np
 
-champions = {'Real Madrid':12, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
+champions = {'Real Madrid':13, 'Manchester United':3, 'Milán':7, 'Bayern Munich':5, 'PSG': 0}
 serie_champions = pd.Series(champions)
 serie_champions['Real Madrid']=np.nan       # Muestra qué elementos son null o na.
 
@@ -590,7 +575,7 @@ print(serie_champions.isnull())
 
 ### <font color="#004D7F" face="monospace"> where() y mask() </font>
 
-La función `where(condición)` devuelve una serie en la que los elementos que __no__ cumplen la conadición toman un valor predefinido, que por defecto es `NaN`, pero puede ser un escalar, o incluso el valor correspondiente en otra serie. 
+La función `where(condición)` devuelve una serie en la que los elementos que __no__ cumplen la condición toman un valor predefinido, que por defecto es `NaN`, pero puede ser un escalar, o incluso el valor correspondiente en otra serie. 
 
 
 ```python
@@ -621,50 +606,6 @@ print("Con un 0 por defecto:")
 print(serie_champions.mask((serie_champions > 5),0))
 ```
 
-<a id="section37"></a> 
-## <font color="#004D7F"> Vectorización </font>
-
-Internamente, Pandas utiliza Numpy para almacenar los datos. Por tanto, algunas de las  peraciones que se pueden llevar sobre los objetos `Series` (y los `DataFrame` que se verán después) son vectorizadas. Esto supone un aumento importante en la eficiencia.
-
-
-```python
-import numpy as np
-# Crea una serie de números aleatorios
-serie = pd.Series(np.random.randint(0,1000,10000))
-print(serie.shape)
-```
-
-En las dos celdas siguientes, calcula la suma de los elementos de la serie, con y sin vectorización, respectivamente.
-
-
-```python
-%%timeit -n 10
-suma = 0
-for elem in serie:
-    suma+=elem
-```
-
-
-```python
-%%timeit -n 10
-suma = np.sum(serie)
-```
-
-En el siguiente ejemplo se compara el tiempo de ejecución de una suma con un escalar mediante un bucle, y mediante _Broadcast_. (En este caso, se inicializa la estructura en la misma linea de `timeit`, pero ese tiempo no se computa).
-
-
-```python
-%%timeit -n 10 serie = pd.Series(np.random.randint(0,1000,10000))
-for indice, valor in serie.iteritems():
-    serie.loc[indice]= valor+2
-```
-
-
-```python
-%%timeit -n 10 serie = pd.Series(np.random.randint(0,1000,10000))
-serie+=2
-```
-
 <a id="section4"></a>
 # <font color="#004D7F"> 4. Datos categóricos </font>
 
@@ -679,7 +620,7 @@ El objeto `pd.Categorical` permite representar __una colección__ (_no una serie
 
 
 ```python
-calidades = pd.Categorical(["primera","segunda","tercera","primera", "tercera", "especial"])
+calidades = pd.Categorical(["primera","segunda","tercera","primera","tercera","especial"])
 print(calidades,'\n')
 
 # Solo considera tres categorías. 
@@ -698,7 +639,7 @@ También es posible asignar un orden en las categorías.
 
 
 ```python
-calidades = pd.Categorical(["primera","segunda","tercera","primera", "tercera", "especial"]
+calidades = pd.Categorical(["primera","segunda","tercera","primera","tercera","especial"]
                           ,categories=["primera","segunda","especial"], ordered=True)
 print(calidades)
 print(type(calidades))
@@ -862,56 +803,6 @@ print(calidades.cat.as_ordered(),'\n')
 print(calidades.cat.as_unordered())
 ```
 
-### <font color="#004D7F">Unión  categorías</font>
-
-Las colecciones de datos categóricos pueden unirse mediante `union_categoricals`.
-
-
-```python
-from pandas.api.types import union_categoricals
-
-calidades1 = pd.Categorical(["Extra", "Especial", "Extra", "Especial"])
-calidades2 = pd.Categorical(["Primera", "Primera", "Segunda", "Segunda"])
-union_categoricals([calidades1, calidades2])
-```
-
-<a id="section43"></a>
-## <font color="#004D7F"> Operaciones con valores categóricos</font>
-
-Es posible llevar a cabo operaciones de comparación entre series categóricas cuando estas utilizan la misma categoría. 
-
-
-```python
-tipo_calidades = CategoricalDtype(categories=["segunda","primera","especial"], ordered=True)
-calidades1 = pd.Series(["primera","segunda","tercera","especial", "tercera", "especial"], dtype=tipo_calidades)
-calidades2 = pd.Series(["segunda","segunda","segunda","primera", "especial", "especial"], dtype=tipo_calidades)
-
-print(calidades1>calidades2)
-print(calidades1==calidades2)
-print(calidades1>"primera")
-```
-
-<a id="section44"></a> 
-## <font color="#004D7F"> Indexación con valores categóricos. </font>
-
-<br>
-También es posible utilizar valores categóricos en el índice de las series. Esta indexación permite también cierto grado de _slicing_.
-
-
-```python
-calidades = pd.Categorical(["primera","segunda","segunda","primera", "especial"], 
-                           categories=["especial","primera","segunda"], ordered=True)
-equipos = ["Real Madrid", "Albacete", "Granada", "Barcelona", "Atlético de Madrid"]
-
-serie_equipos = pd.Series(equipos, index=calidades)
-print(serie_equipos,'\n')
-
-print(type(serie_equipos.index),'\n')
-
-
-print(serie_equipos.loc["primera"])
-serie_equipos["segunda":]
-```
 
 <a id="section5"></a>
 # <font color="#004D7F"> 5. Datos temporales en Pandas </font>
@@ -984,88 +875,4 @@ print(momento>momento2)
 
 momento3 = pd.Timestamp('2/2017')     # Si solo se especifica el mes, considera el primer instante. 
 print(momento>momento3)
-```
-
-### <font color="#004D7F"  face="monospace">strftime()</font>
-
-La función `strftime` permite imprimir las marcas de tiempo con varios formatos. El siguiente código toma el momento actual, y lo imprime con el formato especificado. Se puede encontrar información completa sobre el formato que acepta la función `strftime` [aquí](http://strftime.org/).
-
-
-```python
-ahora = pd.Timestamp('Now')
-
-print(hoy.strftime("%d/%m/%Y"))
-print(hoy.strftime("%d of %B. %Y"))
-```
-
-Esta función es similar a la implementada en el módulo `time` de Python.
-
-
-```python
-import datetime
-
-ahora = datetime.datetime(year=2018, month=1, day=15, hour=11, minute=15, second=19)
-print(type(ahora))
-print(ahora.strftime("%d/%m/%Y"))
-print(ahora.strftime("%d of %B. %Y"))
-```
-
-### <font color="#004D7F"> <font face="monospace">to_datetime() </font>
-
-La función `to_datetime` permite construir objetos de tipo `Timestamp` del mismo modo que el constructor de este tipo de objetos, pero es mucho más potente y flexible. La referencia completa de esta función puede encontrarse [aquí](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.to_datetime.html).
-
-El siguiente código muestra algunos ejemplos de construcción de objetos `Timestamp` mediante esta función.
-
-
-```python
-momento = pd.to_datetime('02/2/2017 10:05AM')
-print(momento)
-
-inicio_curso=pd.to_datetime(21, unit='D', origin='2018-1-1')
-print(inicio_curso)
-
-fecha = pd.to_datetime('2018-15-1', dayfirst=True)
-print(fecha)
-```
-
-El siguiente caso es ilustrativo de una circunstancia que puede dar lugar a errores inesperados.
-
-
-```python
-momento = pd.to_datetime('3/2/2017 10:05AM')
-print(momento.strftime("%d of %B. %Y"))
-
-momento = pd.to_datetime('3/2/2017 10:05AM', dayfirst=True)
-print(momento.strftime("%d of %B. %Y"))
-```
-
-<div class="alert alert-block alert-danger">
-<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-Hay que tener en cuenta que en el sistema anglosajón, el mes se suele colocar antes que el año. La fecha anterior, que en España se interpreta como tres de febrero, representa en realidad al dos de marzo. Esta circunstancia es fuente común de errores. 
-</div>
-
-La función `to_datetime` permite convertir fechas en formatos muy diversos, y no predefinidos. Esta funcionalidad puede utilizarse para llevar a cabo conversiones en series.
-
-
-```python
-momento = pd.to_datetime('Fecha de finalización: Sep 30, 2018 a las: 10:30 pm',
-                         format='Fecha de finalización: %b %d, %Y a las: %I:%M %p')
-print(momento)
-```
-
-Si la función `to_datetime` se aplica a una serie de Strings, entonces devuelve otra serie con objetos `Timestamp`.
-
-
-```python
-serie = pd.Series(['2 June 2013', 'Aug 29, 2014', '2015-06-26', '7/12/16', '02/2/2017 10:05AM'])
-
-print('Serie de Strings')
-print(serie)
-print()
-
-serie_dt = pd.to_datetime(serie) 
-print('Serie de elementos datetime')
-print(serie_dt)
-
-type(serie_dt[0])
 ```

@@ -50,7 +50,7 @@ df_titanic = pd.read_csv('datos/Titanic.csv', index_col=0)
 df_titanic.head(5)                                           
 ```
 
-El siguiente código accede a la columna _Name_ del `DataFrame` anterior (los accesos se tratarán con detalle en este tutorial) y muestra su tipo, que es `Series`. Es decir, es posible operar sobre columnas mediante los métodos descritos en la primera parte del tutorial. 
+El siguiente código accede a la columna _Name_ del `DataFrame` anterior (los accesos se tratarán con detalle en este tutorial) y muestra su tipo, que es `Series`. Es decir, es posible operar sobre columnas mediante los métodos descritos en la primera parte de curso. 
 
 
 ```python
@@ -102,25 +102,6 @@ print("\nTipo de datos de cada columna: \n", df_titanic.dtypes)
 
 print("\nToda la información:\n")
 print(df_titanic.info())
-```
-
-Incluso es posible acceder a información más detallada sobre el uso de memoria (por columnas) mediante `DataFrame.memory_usage()`.
-
-
-```python
-print(df_titanic.memory_usage())
-```
-
-<div class="alert alert-block alert-info">
-<i class="fa fa-info-circle" aria-hidden="true"></i>
-&nbsp;  Aunque el uso de información a este nivel __excede el nivel de este tutorial__, sí que puede ser útil ocasionalmente si se hace necesario reducir el tamaño del `DataFrame` en memoria. Por ejemplo, el siguiente código convierte el tipo de datos de la columna `SexCode` a un entero de un byte, con la correspondiente ganancia. 
-</div>
-
-
-```python
-import numpy as np
-df_titanic['SexCode'] = df_titanic['SexCode'].astype(np.int8)
-print(df_titanic.memory_usage())
 ```
 
 Con respecto a los índices, tanto el propio índice como las columnas se representan con tipos de datos específicos que optimizan los accesos, aunque la colección de valores se representa internamente mediante un array Numpy que es accesible a través del campo `values`. También se pueden convertir en listas mediante el método `tolist()`. 
@@ -401,19 +382,6 @@ print()
 print(df.loc[['Tienda 2','Tienda 1'],['Producto','Compra','Venta']])
 print()
 print(df.iloc[0:3,0:2])      
-```
-
-<div class="alert alert-block alert-info">
-<i class="fa fa-info-circle" aria-hidden="true"></i> El método `at` es equivalente a `loc`, (e `iat` a `iloc`) con la salvedad de que `at` e `iat` __solamente aceptan escalares como índice__. Debido a esto, también son más eficientes. 
-</div>
-
-
-```python
-fila = df.at['Tienda 1','Producto']            
-print(fila,'\n')
-
-fila = df.iat[2,1]            
-print(fila)
 ```
 
 ---
