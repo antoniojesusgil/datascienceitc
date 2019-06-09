@@ -21,9 +21,6 @@
     * [<font face="monospace">concat()</font>](#section122)
     * [<font face="monospace">merge()</font>](#section123)
     * [<font face="monospace">join()</font>](#section124)
-* [13. Tablas dinámicas y reestructuración](#section13)
-    * [Creación de tablas dinámicas](#section131)
-    * [Reestructuración de tablas](#section132)
 
 ---
 
@@ -50,43 +47,51 @@ grupos_df = df.groupby('state');       # funcionamiento de la función. La segun
 print(type(grupos_df))
 ```
 
-La estructura `GroupBy.indices`, contiene un diccionario con las posiciones de las filas que corresponden a cada uno de los grupos. Otra estructura, `GroupBy.groups`, devuelve los índices de las filas correspondientes a cada grupo. 
+Nos crea un ojeto de tipo `DataFrameGroupBy`. La estructura `GroupBy.indices`, contiene un diccionario con las posiciones de las filas que corresponden a cada uno de los grupos. Otra estructura, `GroupBy.groups`, devuelve los índices de las filas correspondientes a cada grupo. 
 
 
 ```python
 indices = df.groupby('state').indices
 print("Índices")
 print(type(indices),'\n')
+```
+```python
 print(indices.keys())
 print()
+```
+```python
 print(indices['Alabama'])
 print()
 ```
 
 Es posible obtener un `DataFrame` con los elementos correspondientes a cada grupo mediante la función `GroupBy.get_group()`.
 
-
 ```python
 df.groupby('state').get_group('Alabama').head()
+```
+
+Ejercicio: muestra el tamaño del df correspondiente al grupo de `Alabama`
+```python
+# Escribe el código necesario
 ```
 
 <div class="alert alert-block alert-info">
 <i class="fa fa-info-circle" aria-hidden="true"></i> __Nota__: Aunque estas estructuras y modo de acceso están disponibles, y permiten entender el funcionamiento de  `groupby()`, no es habitual el trabajo directo con ellas. 
 </div>
 
-Es posible iterar sobre la estructura `DataFrameGroupBy` y obtener el `DataFrame` correspondiente a cada grupo.
+Es posible iterar sobre la estructura `DataFrameGroupBy` y obtener tanto el grupo como el `DataFrame` correspondiente a cada grupo. 
 
+En este caso agrupamos en función de la columna `state`. El iterador devuelve una tupla con el grupo y el DataFrame.
 
 ```python
 print("Imprime el primer grupo: \n")
 for grupo, df_grupo in df.groupby('state'):
     print("Grupo: ",grupo)
-    print(df_grupo.head())
+    print(df_grupo.head())                  # Imprime la cabecera
     break                                   # Para imprimir solamente un grupo
 ```
 
 La estructura `DataFrameGroupBy` implementa la mayoría de las funciones que implementa un `DataFrame`, pero éstas se aplican de manera independiente a cada uno de los grupos. El resultado de la aplicación es un `DataFrame`.
-
 
 ```python
 grupos_df = df.groupby('state')
@@ -94,71 +99,26 @@ grupos_df.mean().head()
 #grupos_df.describe()
 ```
 
-El acceso a columnas también se aplica de manera independiente a cada grupo, de manera que genera un objeto `SeriesGroupBy` (o `DataFrameGroupBy` si se accede a varias columnas), en el que los datos están agrupados con el mismo criterio que el `DataFrame`.
-
-
 ```python
-#grupos_pop2010 = df.groupby(df['state'])['pop2010']      # Equivalente
-#grupos_pop2010 = df['pop2010'].groupby(df['state'])      # Equivalente
-grupos_pop2010 = df.groupby('state')['pop2010']
-print(type(grupos_pop2010)) 
-print()
-
-for grupo, serie_grupo in grupos_pop2010:
-    print(grupo,": ",len(serie_grupo),"\n")
-    print(serie_grupo.head())
-    break;                     # Procesa solamente la primera iteración
+grupos_df.describe()
 ```
 
-Es posible grupar los datos según el resultado de una función aplicada sobre el índice del `DataFrame`. La siguiente celda de código implementa una función que determina si un estado está o no en la costa, agrupa las entradas según el resultado de esta función, y devuelve la población total en 2010 de cada uno de los grupos.
+El acceso a columnas también se aplica de manera independiente a cada grupo, de manera que genera un objeto `SeriesGroupBy` solo para una columna (o `DataFrameGroupBy` si se accede a varias columnas), en el que los datos están agrupados con el mismo criterio que el `DataFrame`.
 
+Ejercicio: Muestra la columna `pop2010` para los grupos `state`. En otro renglon, imprime el tipo de estructura y comprueba que es `SeriesGroupBy`.
 
 ```python
-costa_este = {'Maine', 'New Hampshire', 'Massachusetts', 'Rhode Island', 'Connecticut', 'New York', 
-              'New Jersey', 'Delaware', 'Maryland', 'Virginia', 'North Carolina', 'South Carolina', 
-              'Georgia', 'Florida'}
-
-costa_oeste = {'Alaska','California', 'Oregon', 'Washington'}
-
-def es_costa(estado):
-    return (estado in costa_este) or (estado in costa_oeste)
-
-for grupo, data in df.set_index('state').groupby(es_costa):
-    print(grupo)
-    print(data.index.unique())
-    print("Población total: ",data['pop2010'].sum())
-    print()
+# Escribe el código necesario
 ```
+Es posible iterar sobre los datos devueltos y disponemos el grupo y los datos.
 
-La operación anterior se puede sintetizar.
-
-
-```python
-df.set_index('state').groupby(es_costa)['pop2010'].sum()
-```
-
-Indirectamente, es posible agrupar a partir de una función aplicada sobre una o varias columnas. El siguiente código es equivalente al anterior, pero no se establece la columna _state_ como índice. 
-
+Ejercicio: Crea un bucle for python que nos muestre los datos relativos a la serie anterior. Añadimos break al final para que tan solo muestre `Alabama`.
 
 ```python
-for grupo, data in df.groupby(df['state'].apply(es_costa)):
-    print(grupo)
-    print(data.index.unique())
-    print("Población total: ",data['pop2010'].sum())
-    print()
-```
+# Escribe el código necesario 
+for in :
 
-La forma de trabajar anterior permite hacer la agrupación mediante una función aplicada sobre varias columnas. 
-El siguiente código determina si un condado ha crecido más del 50% desde el 2000 al 2010, y agrupa los datos en función de ese criterio.
-
-
-```python
-def ha_crecido(county):
-    return (county['pop2010']/county['pop2000'])>1.5
-
-grupos_df = df.groupby(df.apply(ha_crecido, axis=1))
-# Muestra los que pertenecen al grupo que sí ha crecido más del 50%.
-grupos_df.get_group(True).head()
+    break;
 ```
 
 <div style="text-align: right"> <font size=5> [<i class="fa fa-arrow-circle-up" aria-hidden="true" style="color:#004D7F">](#indice)</i></font></div>
@@ -168,27 +128,28 @@ grupos_df.get_group(True).head()
 <a id="section101"></a> 
 ## <font color="#004D7F">Agregación por grupos </font>
 
-<br> Una de los usos más frecuentes de la agrupación es la agregación por grupos. La función `agg()` lleva a cabo la agrupación de manera independiente para cada grupo.
-
+<br> ¿Para qué agrupamos? Para disponer de datos agregados. Una de los usos más frecuentes de la agrupación es la agregación por grupos. La función `agg()` lleva a cabo la agrupación de manera independiente para cada grupo.
 
 ```python
+# A la funcion agg se le pueden pasar parámetros de tres formas
+# Para la columna 2010 obtiene la media y el valor máximo utilizando dos funciones
+# Para la columna med_income obtenemos la media mediante un string
 media_estado = df.groupby('state').agg({'pop2010': [np.mean, lambda pop: np.max(pop)], 'med_income':'mean'})
 media_estado.head()
 ```
 
-Existe otro modo de llevar a cabo la agregación. Consiste en acceder a la columna determinada, y llevar a cabo la agregación sobre ella.
+Existe otro modo de llevar a cabo la agregación. Consiste en acceder a la columna determinada, y llevar a cabo la agregación sobre ella pasando la lista de funciones a utilizar.
 
+Ejercicio: Muestra un `df.groupby` utilizando `agg` equivalente a la anterior pasando una lista de funciones. Nota: recuerda utilizar numpy para el máximo y el mínimo (np.max, np.min)
 
 ```python
-media_estado = df.groupby('state')['pop2010'].agg([np.max, np.min, 'mean'])
+# Escribe el código necesario
 media_estado.head()
 ```
 
 ### <font color="#004D7F"> Eficiencia </font>
 
-
 Aunque la agregación por grupos se puede llevar a cabo de otros modos, el uso de una estructura `GroupBy` permite hacerlo de manera más eficiente. La siguiente celda obtiene la media de población en 2010 para las filas correspondientes a cada estado mediante indexación con booleanos. 
-
 
 ```python
 %%timeit -n 10 
@@ -197,7 +158,6 @@ for state in df['state'].unique():
 ```
 
 La siguiente celda hace la misma operación, pero iterando dobre una estructura `GroupBy`.
-
 
 ```python
 %%timeit -n 10
@@ -218,44 +178,14 @@ avg = df.groupby('state')['pop2010'].mean()
 ---
 
 <a id="section11"></a> 
-# <font color="#004D7F">Multi-índices </font>
+# <font color="#004D7F">11. Multi-índices </font>
 
 <br>
 Pandas permite utilizar varios niveles de indexación, tanto para filas como para columnas. En este tutorial se describen los conceptos necesarios para el uso más común. Se puede encontrar más información al respecto en la ([documentación](https://pandas.pydata.org/pandas-docs/stable/advanced.html)). 
 
-<br>
-Cuando se proporcionan varias colecciones como índice en la construcción del `DataFrame`, se crea un multi-indice. 
-
-
-```python
-compra_1 =  {'Nombre': 'Álvaro', 'Producto': 'Queso', 'Precio': 22.50}
-compra_2 =  {'Nombre': 'Benito', 'Producto': 'Vino', 'Precio': 14.50}
-compra_3 =  {'Nombre': 'Fernando','Producto': 'Jamón', 'Precio': 50.00}
-compra_4 =  {'Nombre': 'Martín', 'Producto': 'Aceite', 'Precio': 20.00}
-compra_5 =  {'Nombre': 'Hernán'} # Deja a NaN los campos para los que no se proporciona valor.
-
-df_compras = pd.DataFrame([compra_1, compra_2, compra_3, compra_4, compra_5], 
-                          index=[['Tienda 1', 'Tienda 1', 'Tienda 2', 'Tienda 3', 'Tienda 3'],
-                                 ['Albacete', 'Albacete', 'Villarrobledo', 'Tomelloso', 'Tomelloso']])
-df_compras
-```
-
-El índice se divide en niveles, organizados de manera jerárquica. 
-
-
-```python
-df_compras.index
-```
-
-La función `swaplevel` permite cambiar la jerarquía de índices. 
-
-
-```python
-df_compras.swaplevel(i=1,j=0)
-```
+El índice se divide en niveles, organizados de manera jerárquica. Retrocede a la sección anterior y revisa la salida del ejemplo `media_estado`.
 
 La siguiente celda de código lee un conjunto de datos y establece un índice con un nivel principal, _state_, y otro secundario, _name_. La jerarquía corresponde al orden en que aparecen las columnas. 
-
 
 ```python
 import pandas as pd
@@ -264,8 +194,9 @@ df.set_index(['state','name'], inplace=True)
 df.head()
 ```
 
-Cuando se utiliza un índice a varios niveles, el acceso natural a filas se hace mediante tuplas cuyo tamaño corresponde al número de índices, y con los valores del índice en cada nivel.
+Cuando se utiliza un índice a varios niveles, el acceso natural a filas se hace mediante tuplas cuyo tamaño corresponde al número de índices, y con los valores del índice en cada nivel. Utilizamos `loc` en vez de `iloc`.
 
+Al disponer de dos índices, se puede proporcionar una tupla donde cada posición contenga el valor relativo.
 
 ```python
 #df.loc[('Alabama','Bibb County')]      
@@ -277,30 +208,56 @@ df.loc['Alabama','Bibb County']             # Estas dos notaciones son equivalen
 __Importante__: Hablamos de varios niveles porque pueden ser más de dos. 
 </div>
 
-No es necesario especificar valores en todos los niveles para localizar elementos. Es posible omitir los valores a partir de un nivel. 
-
+No es necesario especificar valores en todos los niveles para localizar elementos. Es posible omitir los valores a partir de un nivel. Es decir, partiendo del nivel cero.
 
 ```python
 df.loc['Alabama'].head()
 ```
+Ejercicio: Mediante el comando anterior, intenta acceder directamente a `Bibb County`.
+
+```python
+# Escribe el código necesario
+```
 
 Este tipo de indexación, mediante el valor en el índice principal, permite _slicing_.
 
-
 ```python
-df.loc['Alabama':'Wyoming'].head()
+df.loc['Alabama':'California'].head()
+# Prueba con Wyoming
 ```
 
 También es posible utilizar multi-índices en las columnas. El siguiente código crea un multi-índice y lo establece en el `DataFrame` anterior.
 
+Aprovecharemos para construir un multi-índice por código:
+
+1. Mostramos las columnas del DataFrame y creamos dos listas con los campos necesarios
+
+```python
+df.columns
+```
 
 ```python
 # Crea un multi-índice
 level1 = ['population', 'population', 'money', 'money', 'money','money','money','money']
 level2 = df.columns
-tuples = list(zip(level1,level2))
-m_columns = pd.MultiIndex.from_tuples(tuples, names=['principal', 'secundario'])
+```
 
+2. Construimos una lista de tuplas utilizando la función `zip`
+
+```python
+tuples = list(zip(level1,level2))
+tuples
+```
+
+3. A partir de la lista de tuplas, creamos un multi-índice y además podemos nombrar los índices
+
+```python
+m_columns = pd.MultiIndex.from_tuples(tuples, names=['principal', 'secundario'])
+#m_columns
+```
+4. Aplicamos el multi-índice a las columnas del DataFrame
+
+```python
 # Establece un multi índice como índice de columnas.
 df.columns = m_columns
 df.head()
@@ -308,62 +265,12 @@ df.head()
 
 A veces es más cómodo mostrar los índices como tuplas. Es posible hacerlo fijando la opción `display.multi_sparse` de Pandas a `False`. 
 
-
 ```python
 pd.set_option('display.multi_sparse', False)
 df.head()
 ```
 
-
-```python
-pd.set_option('display.multi_sparse', True)
-```
-
-También pueden accederse las columnas a través del nivel (o niveles) más bajos del índice. 
-
-
-```python
-df.loc['Alabama','population'].head()
-```
-
-
-```python
-df.loc['Alabama':'Wyoming','population'].head()
-```
-
-Mediante la función `DataFrame.xs` se puede acceder a los datos especificando el nivel del índice. Esto permite la indexación simple con índices en cualquier nivel.
-
-
-```python
-df.xs('Park County', level=1)
-```
-
-Este tipo de acceso también puede hacerse para columnas. 
-
-
-```python
-# El nivel se llama 'secundario' porque anteriormente le llamamos así. 
-df.xs('pop2000', level='secundario', axis=1).head()   
-```
-
-Es posible ordenar el `DataFrame` en función del índice jerárquico. En ese caso, la jerarquía se utiliza también en la ordenación.
-
-
-```python
-df.sort_index(inplace=True)
-df.head()
-```
-
-También se puede ordenar el `DataFrame` en función de un nivel del índice.
-
-
-```python
-df.sort_index(level=1)
-df.head()
-```
-
 Cuando el `DataFrame` está ordenado, es posible hacer slicing con tuplas. 
-
 
 ```python
 df.loc[('Alabama','Coosa County'):('Wyoming','Carbon County')].head()
@@ -380,16 +287,8 @@ for grupo, datos in grupos_df:
     break;    # Solamente el primer grupo.
 ```
 
-Otro ejemplo. Agrupa por nombre de condado, y muestra las columnas que corresponden al índice _ money_.
+Ejercicio: Agrupa por nombre de condado, y muestra las columnas que corresponden al índice _ money_.
 
-
-```python
-grupos_df = df.groupby(level=1)['money']
-for grupo, datos in grupos_df:
-    print(grupo)
-    print(datos.head())
-    break;    # Solamente el primer grupo.
-```
 
 <div style="text-align: right"> <font size=5> [<i class="fa fa-arrow-circle-up" aria-hidden="true" style="color:#004D7F">](#indice)</i></font></div>
 
@@ -435,20 +334,29 @@ print(eqp_df)
     
 Es la función más sencilla. Permite añadir a un `DataFrame` las filas de otro u otros `Dataframe`. Como resultado, genera un nuevo `DataFrame`.
 
+```python
+print(pos1_df.append(pos2_df))
+```
+Vemos la unión realizada por sus índices originales. También se puede facilitar un nuevo índice que sea una columna común en los df.
+
+Ejercicio: Imprime el nuevo df cuyo `set_index` sea la columna **Nombre**
 
 ```python
-print(pos1_df.set_index("Nombre").append(pos2_df.set_index("Nombre")))
+# Escribe el código para el nuevo df
+print()
 ```
 
 `append()` toma un parámetro, denominado `ignore_index` que permite crear un nuevo índice (numérico) e ignorar el de los `DataFrames` originales. 
 
+Ejercicio: Añade `ignore_index` al ejercicio anterior 
 
 ```python
-print(pos1_df.set_index("Nombre").append(pos2_df.set_index("Nombre"), ignore_index=True))
+# Escribe el código necesario
+print()
 ```
 
 <div class="alert alert-block alert-info">
-<i class="fa fa-info-circle" aria-hidden="true"></i> __Nota__: La función `append()` es en realidad un caso específico de la función más general `concat()`, que se verá a continuación.
+<i class="fa fa-info-circle" aria-hidden="true"></i> __Nota__: La función `append()` es en realidad un caso específico de la función más general `concat()`.
 </div>
 
 <div style="text-align: right"> <font size=5> [<i class="fa fa-arrow-circle-up" aria-hidden="true" style="color:#004D7F">](#indice)</i></font></div>
@@ -468,7 +376,6 @@ Esta función implementa la concatenación de `DataFrames`. Puede hacerse a nive
 
 La siguiente llamada es equivalente a `append()`. Por defecto lleva a cabo la concatenación a nivel de filas, y une las columnas de ambos `DataFrame`.
 
-
 ```python
 pd.concat([pos1_df, pos2_df])
 #pd.concat([pos1_df, pos2_df], join="outer", axis=0)       # Es equivalente
@@ -481,34 +388,48 @@ El parámetro join determina qué conjunto de índices (en el eje que no se conc
 pd.concat([pos1_df, eqp_df], join="inner", axis=0, ignore_index=True)      
 ```
 
-Cuando se unen `DataFrame` con distintas columnas,  los valores indeterminados se fijan a _NaN_ en el nuevo `DataFrame`. Este código, además, añade una clave que permite identificar el origen de los datos. 
+Cuando se unen `DataFrame` con distintas columnas, los valores indeterminados se fijan a _NaN_ en el nuevo `DataFrame`. Este código, además, añade una clave que permite identificar el origen de los datos. 
 
+Ejercicio: Contatena los df pos1_df y eqp_df utilizando el eje de las filas `axis=0`
 
 ```python
-pd.concat([pos1_df, eqp_df], join="outer", axis=0, keys=["jugadores", "Equipos"])
+# Escribe el código necesario
 ```
 
-La elección de `axis=1` permite concatenar las columnas. En este ejemplo, indicamos que solamente se consideren aquellas filas cuyo índice aparece en ambos `DataFrame` mediante `join=inner`.
-
+Ejercicio: Utiliza el vector de claves se parando los dataframes en 'Jugadores' y 'Equipos'
 
 ```python
+# Escribe el código necesario
+```
+La elección de `axis=1` permite concatenar las columnas. En este ejemplo, indicamos que solamente se consideren aquellas filas cuyo índice aparece en ambos `DataFrame` mediante `join=inner`.
+
+```python
+# Hacemos una copia de los df para evitar desastres
 # Previamente, establecemos el nombre del jugador como índice. 
 cp_pos1_df=pos1_df.set_index('Nombre')
 cp_pos2_df=pos2_df.set_index('Nombre')
 cp_eqp_df = eqp_df.set_index('Nombre')
 ```
 
-
 ```python
 pd.concat([cp_pos1_df, cp_eqp_df], axis=1, join='inner')
-#pd.concat([cp_pos1_df, cp_eqp_df], axis=1, join='outer')
+```
+
+Ejercicio: Une los df utilizando columnas y con el tipo de union `outer`  
+
+```python
+# Escribe el código necesario
 ```
 
 En lugar de `join`, es posible determinar qué índices se incluyen mediante `join_axes`. El siguiente ejemplo incluye todas las filas del primer `DataFrame`.
 
+```python
+pd.concat([cp_pos1_df, cp_eqp_df], axis=1, join_axes=[cp_pos1_df.index])
+```
+Ejercicio: Muestra los elementos del segundo dataframe
 
 ```python
-pd.concat([cp_pos1_df, cp_eqp_df], axis=1, join_axes=[pos1_df.index])
+# Escribe el código necesario
 ```
 
 <div style="text-align: right"> <font size=5> [<i class="fa fa-arrow-circle-up" aria-hidden="true" style="color:#004D7F">](#indice)</i></font></div>
@@ -533,15 +454,19 @@ Además, admite otros parámetros de utilidad a la hora de presentar el conjunto
 
 * `suffixes`. Es una lista de `Strings` (dos). Cuando existen columnas comunes en ambos `DataFrame`, y no son utilizadas como clave de unión, permite identificarlas en el `DataFrame` resultante. Para ello, añade cada `String` al nombre de la columna correspondiente según incluya los valores de uno u otro `DataFrame`.  
 * `indicator`. Añade una columna, denominada `_merge` con información sobre el origen de cada fila (un `DataFrame` concreto o los dos.
-* `validate`. Es un `String` que permite determinar si se cumple una determinada relación entre las claves de unión. Puede tomar los valores `1:1`, `1:m`, `m:1` y `m:m`.
+* `validate`. Es un `String` que permite determinar si se cumple una determinada relación entre las claves de unión. Puede tomar los valores `1:1`, `1:m`, `m:1` y `m:m`. Heredado de bases de datos relacionales.
 
 <br>
 En la siguiente celda se lleva a cabo la unión entre los dos `DataFrame` definidos anteriormente en función del nombre del jugador, y considerando la unión de todas las filas. Como la columna _País_ aparece en ambos `DataFrame`, se añade también un sufijo para determinar la correspondencia en el `DataFrame` resultante.
 
-
 ```python
 pd.merge(pos1_df,eqp_df, how='outer', left_on='Nombre', right_on='Nombre', suffixes=['_jug','_equ'])
-# pd.merge(pos1_df,eqp_df, how='outer', on='Nombre', suffixes=['_jug','_equ'])  # Equivalente
+```
+
+Ejercicio: Busca una equivalencia al código anterior utilizando las claves de unión por columnas
+
+```python
+# Escribe el código necesario
 ```
 
 En este caso, suponemos que los `DataFrame` están indexados según el nombre del jugador. Además, añadimos un indicador, que permite determinar el origen de cada entrada. 
@@ -562,162 +487,19 @@ pd.merge(pos1_df.set_index('Nombre'), eqp_df.set_index('Nombre'), how='outer',
 
 Es similar a `merge()`, aunque permite unir varios `DataFrame` y utiliza solo algunos parámetros. Por defecto utiliza los índices como clave de unión y el conjunto de elementos del `DataFrame` de la izquierda, es decir, `how=left` ([documentación](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.join.html)).
 
-
-
 ```python
 pos1_df.set_index('Nombre', inplace=True)
 pos2_df.set_index('Nombre', inplace=True)
 eqp_df.set_index('Nombre', inplace=True)
 ```
 
-
-```python
-pos1_df.join(eqp_df, lsuffix='_pos', rsuffix='_equ')
-```
-
-La llamada anterior es equivalente a ésta. 
-
+Ejercicio: Crea con `join` un dataframe equivalente a este:
 
 ```python
 pd.merge(pos1_df, eqp_df, left_index=True, right_index=True, how='left', suffixes=['_jug','_equ'], sort=False)
+# Con sort a `True` nos ordena los datos.
 ```
-
-<div style="text-align: right"> <font size=5> [<i class="fa fa-arrow-circle-up" aria-hidden="true" style="color:#004D7F">](#indice)</i></font></div>
-
----
-
-<a id="section13"></a>
-# <font color="#004D7F"> 13. Tablas dinámicas y reestructuración </font>
-
-<br>
-Para ilustrar esta sección, utilizaremos este conjunto de datos. 
-
 
 ```python
-def franja_edad(edad):
-    if edad<18:
-        return 'joven'
-    elif edad>65:
-        return 'anciano'
-    else:
-        return 'adulto'
-
-df_titanic = pd.read_csv('datos/Titanic.csv', sep=',', skiprows=1, index_col=1,
-                         names=['ID','Nombre','Clase','Edad','Sexo','Superviviente','Código (Sexo)'])
-
-df_titanic['FranjaEdad']=df_titanic['Edad'].apply(franja_edad)
-del df_titanic['ID']
-df_titanic.head()
+# Escribe el código necesario
 ```
-
-<div style="text-align: right"> <font size=5> [<i class="fa fa-arrow-circle-up" aria-hidden="true" style="color:#004D7F">](#indice)</i></font></div>
-
----
-
-<a id="section131"></a>
-
-## <font color="#004D7F">Creación de tablas dinámicas</font>
-</font>
-
-<br>
-Las tablas dinámicas se generan  utilizando los valores de una o varias columnas en la tabla origen como nombres de índices o columnas. Se utilizan para mostrar, generalmente, agregaciones de datos.
-
-### <font color="#004D7F"> <font face="monospace">pivot_table() </font></font>
-
-La función `pivot_table` permite construir una tabla dinámica a partir de los datos de un `DataFrame`. Toma principalment cuatro parámetros:
-
-* `index`/`columns`. La columna o columnas cuyos valores serán utilizados como índices/columnas en la nueva tabla. 
-* `values`. Los valores de interés, sobre los que se lleva a cabo la agregación.
-* `aggfunc`. La función o funciones de agregación.
-
-La siguiente función muestra los supervivientes en función de los campos _Sexo_ y _Clase_. (La función `dropna` elimina los registros vacíos).
-
-
-```python
-pt = df_titanic.pivot_table(index='Clase', columns='Sexo', values='Superviviente', aggfunc=np.sum).dropna()
-pt
-```
-
-En este otro ejemplo, se utilizan como columnas tanto el sexo como la franja de edad. 
-
-
-```python
-df_titanic.pivot_table(index='Clase', columns=['Sexo', 'FranjaEdad'], 
-                       values=['Superviviente'], aggfunc=np.mean).round(2)
-```
-
-También se pueden especificar varias columnas como valores, o varias funciones de agregación.
-
-
-```python
-df_titanic.pivot_table(index='Clase', columns=['Sexo'], 
-                       values=['Superviviente','Edad'], aggfunc=[np.mean, np.sum]).round(2)
-```
-
-### <font color="#004D7F"> <font face="monospace">unstack() </font></font>
-
-La función `unstack()` es más simple que la anterior, ya que trabaja con multi-índices, y no agrega datos, solamente los muestra.  
-
-
-```python
-df_classex = df_titanic.groupby(['Clase','Sexo'])['Superviviente','Edad'].agg(np.sum)
-df_classex
-```
-
-
-```python
-df_classex.unstack('Sexo')
-```
-
-<div style="text-align: right"> <font size=5> [<i class="fa fa-arrow-circle-up" aria-hidden="true" style="color:#004D7F">](#indice)</i></font></div>
-
----
-
-<a id="section132"></a>
-
-## <font color="#004D7F">Reestructuración de tablas</font>
-</font>
-
-Es posible llevar a cabo el proceso inverso al descrito anteriormente. Es decir, convertir los nombres de columnas en valores. 
-
-
-```python
-df_precios = pd.DataFrame({'Casa':[10,20,30], 'Coche':[40,50,60], 'Transporte':[1,2,3]},
-                         index = ['Madrid', 'Barcelona', 'Paris'])
-df_precios
-```
-
-### <font color="#004D7F"> <font face="monospace">stack() </font></font>
-
-El método más sencillo para despivotar tablas es `stack`, que toma un nivel de índices en las columnas, y lo convierte en una índice de la tabla (fila).
-
-
-```python
-df_precios.stack(level=0)
-```
-
-### <font color="#004D7F"> <font face="monospace">melt() </font></font>
-
-Otra posibilidad más completa es `melt()`. Esta función convierte los nombres de varias columnas a valores. Toma tres parámetros principales. 
-
-* `id_vars`. Lista de columnas de referencia. 
-* `value_vars`. Lista de columnas que son despivotadas. 
-* `var_name` y `value_name`. Nombre de las columnas con los nombres de las variables, y los valores correspondientes. 
-
-
-```python
-df_precios.reset_index(inplace=True)
-df_precios.columns = ['Ciudad','Casa','Coche','Transporte']
-df_precios
-```
-
-
-```python
-df_precios.melt(id_vars='Ciudad', value_vars=['Casa','Coche'], var_name='Concepto', value_name='Precio')
-```
-
-<div style="text-align: right"> <font size=5> [<i class="fa fa-arrow-circle-up" aria-hidden="true" style="color:#004D7F">](#indice)</i></font></div>
-
----
-
-<div style="text-align: right"> <font size=6><i class="fa fa-coffee" aria-hidden="true" style="color:#004D7F"></i> </font></div>
