@@ -3,7 +3,6 @@
 
 
 <br><br><br>
-<h2><font color="#004D7F" size=5>Módulo 1</font></h2>
 
 
 
@@ -12,7 +11,7 @@
 <br>
 <div style="text-align: right">
 <font color="#004D7F" size=3>Antonio Jesús Gil</font><br>
-<font color="#004D7F" size=3>Etic Data scientist Course</font><br>
+<font color="#004D7F" size=3>Introducción a la Ciencia de Datos</font><br>
 
 </div>
 
@@ -44,7 +43,7 @@
 <a id="section1"></a>
 # <font color="#004D7F" size=5> 1. Introducción</font>
 
-[**Pandas**](http://pandas.pydata.org) es una librería de Python que proporciona estructuras y herramientas para el preprocesamiento y análisis exploratorio de conjuntos de datos. Trabaja principalemente con objetos denominados `DataFrame`, que representan tablas indexadas de datos, e implementan funciones avanzadas para selección, consultas, agrupamiento, procesamiento, etc. El siguiente código lee un archivo de datos y lo almacena y muestra en un `DataFrame`.
+[**Pandas**](http://pandas.pydata.org) es una librería de Python que proporciona estructuras y herramientas para el preprocesamiento y análisis exploratorio de conjuntos de datos. Trabaja principalemente con objetos denominados `DataFrame`, que representan tablas indexadas de datos, e implementan funciones avanzadas para selección, consultas, agrupamiento, procesamiento, etc...
 
 
 En estas libretas se proporciona una descripción inicial de Pandas, y se presentarán, mediante ejemplos, las funcionalidades básicas de uso más común. No obstante, Pandas es una librería _completa y compleja_, por lo que será indispensable recurrir ocasionalmente a la abundante información existente en la red, a foros como [Stack Overflow](https://stackoverflow.com/questions/tagged/pandas), y a la [documentación oficial de Pandas](http://pandas.pydata.org/pandas-docs/stable/). 
