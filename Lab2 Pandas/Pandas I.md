@@ -1,12 +1,4 @@
-
-
-
-
-<br><br><br>
-
-
-
-<h1><font color="#004D7F" size=6>Introducción a Pandas I</font></h1>
+<h1><font color="#004D7F" size=6>Pandas I</font></h1>
 
 <br>
 <div style="text-align: right">

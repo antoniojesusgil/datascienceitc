@@ -1,14 +1,9 @@
-
-<h2><font color="#004D7F" size=5>Módulo 1</font></h2>
-
-
-
-<h1><font color="#004D7F" size=6>Introducción a Pandas II</font></h1>
+<h1><font color="#004D7F" size=6>Pandas II</font></h1>
 
 <br>
 <div style="text-align: right">
 <font color="#004D7F" size=3>Antonio Jesús Gil</font><br>
-<font color="#004D7F" size=3>Ciencia de Datos</font><br>
+<font color="#004D7F" size=3>Introducción a la Ciencia de Datos</font><br>
 </div>
 
 ---

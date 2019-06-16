@@ -1,6 +1,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=ajgil/docker-base
+ARG BASE_CONTAINER=jupyter/base-notebook
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
@@ -20,6 +20,8 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     lmodern \
     netcat \
     pandoc \
+    libxml2-dev \
+    libxslt-dev \
     python-dev \
     texlive-fonts-extra \
     texlive-fonts-recommended \
