@@ -7,7 +7,7 @@ ARG BASE_CONTAINER=ubuntu:bionic
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
-ARG NB_USER="datatic"
+ARG NB_USER="jovyan"
 ARG NB_UID="1000"
 ARG NB_GID="100"
 
@@ -47,7 +47,7 @@ ADD fix-permissions /usr/local/bin/fix-permissions
 # Enable prompt color in the skeleton .bashrc before creating the default NB_USER
 RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc
 
-# Create NB_USER wtih name datatic user with UID=1000 and in the 'users' group
+# Create NB_USER wtih name jovyan user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
@@ -65,7 +65,7 @@ USER $NB_UID
 RUN mkdir /home/$NB_USER/work && \
     fix-permissions /home/$NB_USER
 
-# Install conda as datatic and check the md5 sum provided on the download site
+# Install conda as jovyan and check the md5 sum provided on the download site
 ENV MINICONDA_VERSION=4.5.12 \
     CONDA_VERSION=4.6.7
 
@@ -127,5 +127,5 @@ COPY start-singleuser.sh /usr/local/bin/
 COPY jupyter_notebook_config.py /etc/jupyter/
 RUN fix-permissions /etc/jupyter/
 
-# Switch back to datatic to avoid accidental container runs as root
+# Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
