@@ -50,10 +50,18 @@ df_tb_tidy_ex = (df_tb
             )
 ```
 
-## Ejercicio 4
+## Ejercicio 4 resuelto
 
 ### Paso 1
 ```python
-df_bill_norm_tracks_ex = (df_bill_tidy.drop(['Date','Rank'], axis= 1).drop_duplicates()..reset_index(drop = True))
-df_bill_norm_tracks_ex.head()
+df_bill_norm_tracks_ex = (df_bill_tidy.drop(['Date','Rank'], axis= 1)
+                          .drop_duplicates().reset_index(drop = True)
+                         .assign(Id = lambda df:df.index))[['Id','Year','Track','Artist','Time','Genre']]
+```
+### Paso 2
+
+```python
+df = pd.merge(df_bill_tidy,
+             df_bill_norm_tracks_ex,
+             on = ['Year','Track','Artist','Time','Genre'])[['Id','Date','Rank']]
 ```
