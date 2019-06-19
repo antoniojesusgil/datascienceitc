@@ -54,6 +54,6 @@ df_tb_tidy_ex = (df_tb
 
 ### Paso 1
 ```python
-df_bill_norm_tracks_ex = (df_bill_tidy.drop(['Date','Rank'], axis= 1).drop_duplicates())
+df_bill_norm_tracks_ex = (df_bill_tidy.drop(['Date','Rank'], axis= 1).drop_duplicates()..reset_index(drop = True))
 df_bill_norm_tracks_ex.head()
 ```
