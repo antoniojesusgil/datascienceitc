@@ -28,3 +28,4 @@ Montecarlo/MonteCarloModelSelection_Functions.py
 Montecarlo/montecarlo-model-selection.ipynb
 Montecarlo/__pycache__/MonteCarloModelSelection_Functions.cpython-37.pyc
 input/creditcardfraud/creditcard.csv
+.DS_Store
