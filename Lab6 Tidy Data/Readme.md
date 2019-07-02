@@ -5,7 +5,7 @@
 ### Regex
 ```python
 def extractWeek(code):
-    pattern = 
+    pattern = "x(\d+)(st|nd|rd|th)\.week"
     match = re.search(pattern, code)
     if match:
         return int(match.group(1))
