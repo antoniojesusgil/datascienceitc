@@ -36,3 +36,26 @@ df_bill_tidy_ex = (df_bill
                     .sort_values(["Year", "Track"])
                )
 ```
+
+## Ejercicio 3
+
+### RegEx
+```python
+def extractSexnAge(code):
+    pattern = "(\S)(\d+)(\d{2})"
+    match = re.search(pattern, code)
+    if match:
+        sex = match.group(1)
+        age = "{}-{}".format(match.group(2), match.group(3))
+        return [sex, age]
+    else:
+        return [np.NaN, np.NaN]
+```
+
+### Completo
+```python
+df_tb_tidy_ex = (df_tb
+                .melt(
+                    id_vars = ["country", "year"],
+                    var_name = "sex_and_age",
+                    value_name = "Cases")
