@@ -33,3 +33,5 @@ input/creditcardfraud/creditcard.csv
 .cache/jedi/CPython-37-31/7ac158c2916e86daf4eb12ed6fff7a94af931b15e6e001c3a84ad3a478986ed5-138dfd50b2077a0419f28a976087d46ddb8b4bfce659d299e5384da8ad8b3586.pkl
 .cache/jedi/CPython-37-31/7ac158c2916e86daf4eb12ed6fff7a94af931b15e6e001c3a84ad3a478986ed5-a108a9c81f0bd3700375e37a77cf3f823048c55ea023179caad8c5c6765e5fe8.pkl
 Lab6 Tidy Data/.ipynb_checkpoints/tidy_data_solved-checkpoint.ipynb
+.local/share/jupyter/runtime/kernel-c3fae333-f684-4655-ae0e-0c3ce9f7a957.json
+.local/share/jupyter/runtime/kernel-60e81e9d-bd07-4311-a9ba-60da5b99584c.json
