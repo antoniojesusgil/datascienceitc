@@ -68,3 +68,16 @@ df_tb_tidy_ex = (df_tb
                 [["Country", "Year", "Sex", "Age", "Cases"]]
             )
 ```
+
+## Ejercicio 4
+
+### Tracks
+```Python
+df_bill_norm_tracks_ex = (df_bill_tidy 
+                           .drop(["Date", "Rank"], axis = 1)
+                           .drop_duplicates()
+                           .reset_index(drop = True)
+                           .assign(Id = lambda df: df.index)
+                           [["Id", "Year", "Track", "Artist", "Time", "Genre"]]
+                         )
+                         
