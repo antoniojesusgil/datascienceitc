@@ -1,4 +1,26 @@
-# Tidy Data
+## Ejercicio 1
+
+### Paso 1
+```python
+df_pew_tidy_ex = df_pew.melt(id_vars = ["religion"], var_name = 'Income', value_name='Freq')
+```
+### Paso 2
+```python
+df_pew_tidy_ex = df_pew_tidy_ex.sort_values("religion")
+```
+### Paso 3
+```python
+df_pew_tidy_ex = df_pew_tidy_ex.rename(columns = {'religion':'Religion'})
+```
+### Completo
+
+```python
+df_pew_tidy_ex = (df_pew
+                   .melt(id_vars=["religion"], var_name = "Income", value_name = "Freq")
+                   .sort_values("religion")
+                   .rename(columns = {"religion": "Religion"})
+                 )
+```
 
 ## Ejercicio 2
 
@@ -80,4 +102,45 @@ df_bill_norm_tracks_ex = (df_bill_tidy
                            .assign(Id = lambda df: df.index)
                            [["Id", "Year", "Track", "Artist", "Time", "Genre"]]
                          )
-                         
+```
+### Ranks
+```Python
+df_bill_norm_ranks_ex = (pd.merge(
+                            df_bill_tidy, 
+                            df_bill_norm_tracks, 
+                            on = ["Year", "Track", "Artist", "Time", "Genre"])
+                          [["Id", "Date", "Rank"]]
+                        )
+```
+
+## Ejercicio 5
+
+### RegEx
+```python
+def extractYear(name):
+    pattern = "^(\d{4})"
+    match = re.search(pattern, name)
+    
+    if match:
+        return match.group(1)
+    else:
+        return np.nan
+    
+def readDfByYear(path, name):
+    year = extractYear(name)
+    return (pd.read_csv("{}/{}".format(path, name))
+              .assign(Year = year)
+           )
+```
+### Completo
+```python
+path = "./data"
+files = ["2014-baby-names-raw.csv", "2015-baby-names-raw.csv"]
+
+dfs = list(map(lambda f: readDfByYear(path, f), files))
+
+df_baby_tidy_ex = (pd.concat(dfs)
+                      .rename(columns = {"rank": "Rank", "name": "Name", "frequency": "Freq", "sex": "Sex"})
+                      [["Year", "Name", "Sex", "Rank", "Freq"]]
+                  )
+```
